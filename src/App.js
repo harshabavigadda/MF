@@ -106,6 +106,15 @@ const MutualFundComparison = () => {
                   ))}
                 </tr>
               ))}
+              <tr className="bg-gray-200 font-bold">
+                <td className="border px-4 py-2 border-black">Total</td>
+                {ids.map((id) => {
+                  const totalReturn = fundData[id]?.tableData?.reduce((sum, entry) => sum + parseFloat(entry.dailyReturn || 0), 0).toFixed(2);
+                  return (
+                    <td key={id} className="border px-4 py-2 border-black">{totalReturn || "-"}%</td>
+                  );
+                })}
+              </tr>
             </tbody>
           </table>
         </div>
