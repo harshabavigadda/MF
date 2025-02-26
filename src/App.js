@@ -50,7 +50,8 @@ const MutualFundComparison = () => {
       const response = await fetch(`https://api.mfapi.in/mf/${id}`);
       const data = await response.json();
       if (data && data.meta) {
-        const fundHouse = data.meta.fund_house;
+        const fundH = data.meta.scheme_name;
+        const fundHouse = fundH.slice(0, 28)
         const processedData = data.data
           .map((entry, index, arr) => {
             const prevNav =
