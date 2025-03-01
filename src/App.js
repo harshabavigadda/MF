@@ -13,7 +13,7 @@ const MutualFundComparison = () => {
   const [fundIds, setFundIds] = useState([
     "143874",
     "152082",
-    "119783",
+    "149039",
     "118759",
     "122639",
     "118955",
