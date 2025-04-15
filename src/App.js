@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import MF from "./components/MF";
 
 const BetCalculator = () => {
   const [oddsTeamA, setOddsTeamA] = useState(0);
