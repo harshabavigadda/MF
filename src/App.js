@@ -7,7 +7,7 @@ const BetCalculator = () => {
   const totalUSDT = 23.5; // Fixed total amount in USDT
 
   const calculateBets = () => {
-    if (oddsTeamA <= 0 || oddsTeamB <= 0) return null;
+    if (oddsTeamA !== 'number' || oddsTeamB !== 'number' ) return null;
 
     // Solve for x and y such that x + y = totalUSDT and x * oddsA = y * oddsB
     const amountTeamB = (totalUSDT * oddsTeamA) / (oddsTeamA + oddsTeamB);
