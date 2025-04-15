@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import MF from "./components/MF";
 
 const BetCalculator = () => {
-  const [oddsTeamA, setOddsTeamA] = useState(0);
-  const [oddsTeamB, setOddsTeamB] = useState(0);
+  const [oddsTeamA, setOddsTeamA] = useState();
+  const [oddsTeamB, setOddsTeamB] = useState();
   const totalUSDT = 23.5; // Fixed total amount in USDT
 
   const calculateBets = () => {
