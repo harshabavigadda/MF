@@ -1,74 +1,32 @@
 import React, { useState } from "react";
 
-// Dummy mutual fund NAV data for comparison
-const mutualFundData = [
-  { name: "Fund A", nav: [10, 10.5, 11, 10.8] },
-  { name: "Fund B", nav: [12, 11.8, 12.2, 12.5] },
-  { name: "Fund C", nav: [20, 20.5, 20.7, 21] },
-];
-
-const MutualFundComparison = () => {
-  const calculateReturns = (navs) => {
-    const returns = [];
-    for (let i = 1; i < navs.length; i++) {
-      const dailyReturn = ((navs[i] - navs[i - 1]) / navs[i - 1]) * 100;
-      returns.push(dailyReturn.toFixed(2));
-    }
-    return returns;
-  };
-
-  return (
-    <div className="p-4 max-w-4xl mx-auto text-sm sm:text-base">
-      <h2 className="text-xl font-bold mb-4 text-center">Mutual Fund NAV Comparison</h2>
-      <table className="w-full table-auto border text-xs sm:text-sm">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-2 py-1">Fund</th>
-            {["Day 1", "Day 2", "Day 3", "Day 4"].map((day, idx) => (
-              <th key={idx} className="border px-2 py-1">{day}</th>
-            ))}
-            <th className="border px-2 py-1">Daily Returns (%)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mutualFundData.map((fund, idx) => (
-            <tr key={idx}>
-              <td className="border px-2 py-1">{fund.name}</td>
-              {fund.nav.map((value, i) => (
-                <td key={i} className="border px-2 py-1">{value}</td>
-              ))}
-              <td className="border px-2 py-1">
-                {calculateReturns(fund.nav).join(", ")}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
-
 const BetCalculator = () => {
-  const [oddsTeamA, setOddsTeamA] = useState(0);
-  const [oddsTeamB, setOddsTeamB] = useState(0);
-  const totalUSDT = 23.5; // Fixed total amount in USDT
+  const [oddsTeamA, setOddsTeamA] = useState("");
+  const [oddsTeamB, setOddsTeamB] = useState("");
+  const totalUSDT = 23.5;
+  const inrPerUSDT = 85; // Approx conversion
 
   const calculateBets = () => {
-    if (oddsTeamA <= 0 || oddsTeamB <= 0) return null;
+    const oddsA = parseFloat(oddsTeamA);
+    const oddsB = parseFloat(oddsTeamB);
 
-    const amountTeamB = (totalUSDT * oddsTeamA) / (oddsTeamA + oddsTeamB);
-    const amountTeamA = totalUSDT - amountTeamB;
+    if (oddsA <= 0 || oddsB <= 0 || isNaN(oddsA) || isNaN(oddsB)) return null;
 
-    const payoutTeamA = amountTeamA * oddsTeamA;
-    const payoutTeamB = amountTeamB * oddsTeamB;
-    const loss = Math.abs(payoutTeamA - payoutTeamB);
+    // Equate payouts: A_amt * A_odds = B_amt * B_odds, A_amt + B_amt = totalUSDT
+    const amountB = (totalUSDT * oddsA) / (oddsA + oddsB);
+    const amountA = totalUSDT - amountB;
+
+    const payoutA = amountA * oddsA;
+    const payoutB = amountB * oddsB;
+    const minPayout = Math.min(payoutA, payoutB);
+    const loss = (totalUSDT - minPayout);
 
     return {
-      amountTeamA,
-      amountTeamB,
-      payoutTeamA,
-      payoutTeamB,
-      loss: loss.toFixed(2),
+      amountA,
+      amountB,
+      payoutA,
+      payoutB,
+      loss,
     };
   };
 
@@ -76,7 +34,7 @@ const BetCalculator = () => {
 
   return (
     <div className="p-4 max-w-md mx-auto text-sm sm:text-base">
-      <h2 className="text-xl font-bold mb-4 text-center">Bet Calculator</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">USDT Bet Calculator</h2>
 
       <div className="space-y-4">
         <div>
@@ -84,7 +42,7 @@ const BetCalculator = () => {
           <input
             type="number"
             value={oddsTeamA}
-            onChange={(e) => setOddsTeamA(parseFloat(e.target.value))}
+            onChange={(e) => setOddsTeamA(e.target.value)}
             className="w-full border px-2 py-1 rounded"
             placeholder="e.g., 2.1"
           />
@@ -95,7 +53,7 @@ const BetCalculator = () => {
           <input
             type="number"
             value={oddsTeamB}
-            onChange={(e) => setOddsTeamB(parseFloat(e.target.value))}
+            onChange={(e) => setOddsTeamB(e.target.value)}
             className="w-full border px-2 py-1 rounded"
             placeholder="e.g., 1.9"
           />
@@ -104,8 +62,8 @@ const BetCalculator = () => {
 
       {result && (
         <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-2">Bet Allocation</h3>
-          <table className="w-full table-auto text-sm border">
+          <h3 className="text-lg font-semibold mb-2 text-center">Bet Allocation</h3>
+          <table className="w-full text-sm table-auto border">
             <thead>
               <tr className="bg-gray-100">
                 <th className="border px-2 py-1">Team</th>
@@ -117,22 +75,22 @@ const BetCalculator = () => {
             <tbody>
               <tr>
                 <td className="border px-2 py-1">Team A</td>
-                <td className="border px-2 py-1">{oddsTeamA}</td>
-                <td className="border px-2 py-1">{result.amountTeamA.toFixed(2)}</td>
-                <td className="border px-2 py-1">{(result.amountTeamA * oddsTeamA).toFixed(2)}</td>
+                <td className="border px-2 py-1">{parseFloat(oddsTeamA)}</td>
+                <td className="border px-2 py-1">{result.amountA.toFixed(2)}</td>
+                <td className="border px-2 py-1">{result.payoutA.toFixed(2)}</td>
               </tr>
               <tr>
                 <td className="border px-2 py-1">Team B</td>
-                <td className="border px-2 py-1">{oddsTeamB}</td>
-                <td className="border px-2 py-1">{result.amountTeamB.toFixed(2)}</td>
-                <td className="border px-2 py-1">{(result.amountTeamB * oddsTeamB).toFixed(2)}</td>
+                <td className="border px-2 py-1">{parseFloat(oddsTeamB)}</td>
+                <td className="border px-2 py-1">{result.amountB.toFixed(2)}</td>
+                <td className="border px-2 py-1">{result.payoutB.toFixed(2)}</td>
               </tr>
             </tbody>
           </table>
 
-          <div className="mt-4">
-            <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹2000)</p>
-            <p><strong>Minimum Loss (approx):</strong> {result.loss} USDT</p>
+          <div className="mt-4 space-y-1 text-sm">
+            <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹{(totalUSDT * inrPerUSDT).toFixed(0)})</p>
+            <p><strong>Minimum Loss:</strong> {result.loss.toFixed(2)} USDT (≈ ₹{(result.loss * inrPerUSDT).toFixed(0)})</p>
           </div>
         </div>
       )}
@@ -140,12 +98,4 @@ const BetCalculator = () => {
   );
 };
 
-const App = () => (
-  <div className="min-h-screen bg-gray-50 text-gray-800 space-y-8 py-4">
-    <MutualFundComparison />
-    <hr className="border-gray-300" />
-    <BetCalculator />
-  </div>
-);
-
-export default App;
+export default BetCalculator;
