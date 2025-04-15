@@ -31,8 +31,6 @@ const BetCalculator = () => {
   const result = calculateBets();
 
   return (
-    <div>
-    //<MF/>
     <div className="p-4 max-w-md mx-auto text-sm sm:text-base">
       <h2 className="text-xl font-bold mb-4 text-center">Bet Calculator</h2>
 
@@ -60,7 +58,6 @@ const BetCalculator = () => {
         </div>
       </div>
               <MF/>
-              </div>
 
       {result && (
         <div className="mt-6">
