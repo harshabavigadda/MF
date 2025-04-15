@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import MF from "./components/MF";
 
 const BetCalculator = () => {
-  const [oddsTeamA, setOddsTeamA] = useState();
-  const [oddsTeamB, setOddsTeamB] = useState();
+  const [oddsTeamA, setOddsTeamA] = useState(0);
+  const [oddsTeamB, setOddsTeamB] = useState(0);
   const totalUSDT = 23.5; // Fixed total amount in USDT
 
   const calculateBets = () => {
-    if (oddsTeamA === 'undefined' || oddsTeamB === 'undefined' ) return null;
+    if (oddsTeamA <= 0 || oddsTeamB <= 0 ) return null;
 
     // Solve for x and y such that x + y = totalUSDT and x * oddsA = y * oddsB
     const amountTeamB = (totalUSDT * oddsTeamA) / (oddsTeamA + oddsTeamB);
