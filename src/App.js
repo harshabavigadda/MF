@@ -23,7 +23,7 @@ const BetCalculator = () => {
       payoutTeamA,
       payoutTeamB,
       loss: loss.toFixed(2),
-      profit,
+      profit: profit.toFixed(3),
       pinr,
     };
   };
@@ -89,7 +89,7 @@ const BetCalculator = () => {
           <div className="mt-4">
             <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹2000)</p>
             <p><strong>Minimum_Loss (approx):</strong> {result.loss} USDT</p>
-            <p><strong>Max Profit (approx):</strong> { result.profit } USDT ≈ ₹{result.pinr}</p>
+            //<p><strong>Max Profit (approx):</strong> { result.profit } USDT ≈ ₹{result.pinr}</p>
           </div>
         </div>
       )}
