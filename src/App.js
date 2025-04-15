@@ -23,7 +23,7 @@ const BetCalculator = () => {
       payoutTeamA,
       payoutTeamB,
       loss: loss.toFixed(2),
-      profit: profit.toFixed(3),
+      profit,
       pinr,
     };
   };
