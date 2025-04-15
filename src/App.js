@@ -16,7 +16,7 @@ const BetCalculator = () => {
     const payoutTeamB = amountTeamB * oddsTeamB;
     const loss = totalUSDT - (payoutTeamA + payoutTeamB)/2;
     let profit = payoutTeamA + payoutTeamB - totalUSDT;
-    let pinr = profit * 85,
+    let pinr = (profit * 85),
     return {
       amountTeamA,
       amountTeamB,
