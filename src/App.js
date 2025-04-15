@@ -15,7 +15,7 @@ const BetCalculator = () => {
     const payoutTeamA = amountTeamA * oddsTeamA;
     const payoutTeamB = amountTeamB * oddsTeamB;
     const loss = totalUSDT - (payoutTeamA + payoutTeamB)/2;
-    const profit = payoutTeamA + payoutTeamB;
+    const profit = payoutTeamA + payoutTeamB - totalUSDT;
 
     return {
       amountTeamA,
@@ -23,6 +23,7 @@ const BetCalculator = () => {
       payoutTeamA,
       payoutTeamB,
       loss: loss.toFixed(2),
+      profit,
     };
   };
 
