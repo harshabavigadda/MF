@@ -14,7 +14,8 @@ const BetCalculator = () => {
 
     const payoutTeamA = amountTeamA * oddsTeamA;
     const payoutTeamB = amountTeamB * oddsTeamB;
-    const loss = Math.abs(payoutTeamA - totalUSDT - (payoutTeamB - totalUSDT)) / 2;
+    const loss = totalUSDT - (payoutTeamA + payoutTeamB)/2;
+    const profit = payoutTeamA + payoutTeamB;
 
     return {
       amountTeamA,
@@ -85,7 +86,8 @@ const BetCalculator = () => {
 
           <div className="mt-4">
             <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹2000)</p>
-            <p><strong>Loss (approx):</strong> {result.loss} USDT</p>
+            <p><strong>Minimum_Loss (approx):</strong> {result.loss} USDT</p>
+            <p><strong>Max_Profit (approx):</strong> {result.profit} USDT</p>
           </div>
         </div>
       )}
