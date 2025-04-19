@@ -1,23 +1,22 @@
 import React, { useState } from "react";
-//import MF from "./components/MF";
 
 const BetCalculator = () => {
   const [oddsTeamA, setOddsTeamA] = useState(0);
   const [oddsTeamB, setOddsTeamB] = useState(0);
   const totalUSDT = 23.5; // Fixed total amount in USDT
+  const inrRate = 85; // Conversion rate from USDT to INR
 
   const calculateBets = () => {
-    if (oddsTeamA <= 0 || oddsTeamB <= 0 ) return null;
+    if (oddsTeamA <= 0 || oddsTeamB <= 0) return null;
 
-    // Solve for x and y such that x + y = totalUSDT and x * oddsA = y * oddsB
     const amountTeamB = (totalUSDT * oddsTeamA) / (oddsTeamA + oddsTeamB);
     const amountTeamA = totalUSDT - amountTeamB;
 
     const payoutTeamA = amountTeamA * oddsTeamA;
     const payoutTeamB = amountTeamB * oddsTeamB;
-    const loss = totalUSDT - (payoutTeamA + payoutTeamB)/2;
+    const loss = totalUSDT - (payoutTeamA + payoutTeamB) / 2;
     const profit = payoutTeamA + payoutTeamB - totalUSDT;
-    
+
     return {
       amountTeamA,
       amountTeamB,
@@ -31,7 +30,6 @@ const BetCalculator = () => {
   const result = calculateBets();
 
   return (
-    <div>
     <div className="p-4 max-w-md mx-auto text-sm sm:text-base">
       <h2 className="text-xl font-bold mb-4 text-center">Bet Calculator</h2>
 
@@ -61,40 +59,66 @@ const BetCalculator = () => {
 
       {result && (
         <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-2">Bet Allocation</h3>
+          <h3 className="text-lg font-semibold mb-2">Bet Allocation (USDT)</h3>
           <table className="w-full table-auto text-sm border">
             <thead>
               <tr className="bg-gray-100">
                 <th className="border px-2 py-1">Team</th>
                 <th className="border px-2 py-1">Odds</th>
                 <th className="border px-2 py-1">USDT</th>
-                <th className="border px-2 py-1">Minimum you get </th>
+                <th className="border px-2 py-1">Min u get</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td className="border px-2 py-1">Team A</td>
                 <td className="border px-2 py-1">{oddsTeamA}</td>
-                <td className="border px-2 py-1">{result.amountTeamA.toFixed(2)} <h>(₹{((result.amountTeamA) * 85).toFixed(2)})</h></td>
-                <td className="border px-2 py-1">{(result.amountTeamA * oddsTeamA).toFixed(2)}  <h>(₹{((result.amountTeamA * oddsTeamA) * 85).toFixed(2)})</h></td>
+                <td className="border px-2 py-1">{result.amountTeamA.toFixed(2)}</td>
+                <td className="border px-2 py-1">{result.payoutTeamA.toFixed(2)}</td>
               </tr>
               <tr>
                 <td className="border px-2 py-1">Team B</td>
                 <td className="border px-2 py-1">{oddsTeamB}</td>
-                <td className="border px-2 py-1">{result.amountTeamB.toFixed(2)} <h>(₹{((result.amountTeamB) * 85).toFixed(2)})</h></td>
-                <td className="border px-2 py-1">{(result.amountTeamB * oddsTeamB).toFixed(2)} <h>(₹{((result.amountTeamB * oddsTeamB) * 85).toFixed(2)})</h></td>
+                <td className="border px-2 py-1">{result.amountTeamB.toFixed(2)}</td>
+                <td className="border px-2 py-1">{result.payoutTeamB.toFixed(2)}</td>
               </tr>
             </tbody>
           </table>
 
           <div className="mt-4">
-            <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹2000)</p>
-            <p><strong>Minimum_Loss (approx):</strong> {result.loss} USDT  <h>(≈ ₹{result.loss * 85})</h></p>
-            <p><strong>Max Profit (approx):</strong> { result.profit } USDT  <h>(≈ ₹{result.profit * 85})</h></p>
+            <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹{(totalUSDT * inrRate).toFixed(2)})</p>
+            <p><strong>Minimum Loss (approx):</strong> {result.loss} USDT (≈ ₹{(result.loss * inrRate).toFixed(2)})</p>
+            <p><strong>Max Profit (approx):</strong> {result.profit} USDT (≈ ₹{(result.profit * inrRate).toFixed(2)})</p>
           </div>
+
+          {/* INR Table */}
+          <h3 className="text-lg font-semibold mt-6 mb-2">Bet Allocation (INR)</h3>
+          <table className="w-full table-auto text-sm border">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border px-2 py-1">Team</th>
+                <th className="border px-2 py-1">Odds</th>
+                <th className="border px-2 py-1">INR</th>
+                <th className="border px-2 py-1">Min u get</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border px-2 py-1">Team A</td>
+                <td className="border px-2 py-1">{oddsTeamA}</td>
+                <td className="border px-2 py-1">₹{(result.amountTeamA * inrRate).toFixed(2)}</td>
+                <td className="border px-2 py-1">₹{(result.amountTeamA * oddsTeamA * inrRate).toFixed(2)}</td>
+              </tr>
+              <tr>
+                <td className="border px-2 py-1">Team B</td>
+                <td className="border px-2 py-1">{oddsTeamB}</td>
+                <td className="border px-2 py-1">₹{(result.amountTeamB * inrRate).toFixed(2)}</td>
+                <td className="border px-2 py-1">₹{(result.amountTeamB * oddsTeamB * inrRate).toFixed(2)}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       )}
-    </div>
     </div>
   );
 };
