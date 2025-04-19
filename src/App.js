@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MF from "./components/MF";
+//import MF from "./components/MF";
 
 const BetCalculator = () => {
   const [oddsTeamA, setOddsTeamA] = useState(0);
@@ -68,34 +68,33 @@ const BetCalculator = () => {
                 <th className="border px-2 py-1">Team</th>
                 <th className="border px-2 py-1">Odds</th>
                 <th className="border px-2 py-1">USDT</th>
-                <th className="border px-2 py-1">USDT × Odds</th>
+                <th className="border px-2 py-1">Minimum you get </th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td className="border px-2 py-1">Team A</td>
                 <td className="border px-2 py-1">{oddsTeamA}</td>
-                <td className="border px-2 py-1">{result.amountTeamA.toFixed(2)}</td>
-                <td className="border px-2 py-1">{(result.amountTeamA * oddsTeamA).toFixed(2)}</td>
+                <td className="border px-2 py-1">{result.amountTeamA.toFixed(2)} <h>(₹{((result.amountTeamA) * 85).toFixed(2)})</h></td>
+                <td className="border px-2 py-1">{(result.amountTeamA * oddsTeamA).toFixed(2)}  <h>(₹{((result.amountTeamA * oddsTeamA) * 85).toFixed(2)})</h></td>
               </tr>
               <tr>
                 <td className="border px-2 py-1">Team B</td>
                 <td className="border px-2 py-1">{oddsTeamB}</td>
-                <td className="border px-2 py-1">{result.amountTeamB.toFixed(2)}</td>
-                <td className="border px-2 py-1">{(result.amountTeamB * oddsTeamB).toFixed(2)}</td>
+                <td className="border px-2 py-1">{result.amountTeamB.toFixed(2)} <h>(₹{((result.amountTeamB) * 85).toFixed(2)})</h></td>
+                <td className="border px-2 py-1">{(result.amountTeamB * oddsTeamB).toFixed(2)} <h>(₹{((result.amountTeamB * oddsTeamB) * 85).toFixed(2)})</h></td>
               </tr>
             </tbody>
           </table>
 
           <div className="mt-4">
             <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹2000)</p>
-            <p><strong>Minimum_Loss (approx):</strong> {result.loss} USDT</p>
-            <p><strong>Max Profit (approx):</strong> { result.profit } USDT</p>
+            <p><strong>Minimum_Loss (approx):</strong> {result.loss} USDT  <h>(≈ ₹{result.loss * 85})</h></p>
+            <p><strong>Max Profit (approx):</strong> { result.profit } USDT  <h>(≈ ₹{result.profit * 85})</h></p>
           </div>
         </div>
       )}
     </div>
-      <MF/>
     </div>
   );
 };
