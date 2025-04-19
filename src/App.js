@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const BetCalculator = () => {
   const [oddsTeamA, setOddsTeamA] = useState(0);
   const [oddsTeamB, setOddsTeamB] = useState(0);
-  const totalUSDT = 23.5; // Fixed total amount in USDT
+  const [totalUSDT, settotalUSDT] = useState(23.5); // Fixed total amount in USDT
   const inrRate = 85; // Conversion rate from USDT to INR
 
   const calculateBets = () => {
@@ -55,6 +55,19 @@ const BetCalculator = () => {
             placeholder="e.g., 1.9"
           />
         </div>
+
+        <div>
+          <label className="block font-medium">Bet Amount in USDT:</label>
+          <input
+            type="number"
+            value={totalUSDT}
+            onChange={(e) => settotalUSDT(parseFloat(e.target.value))}
+            className="w-full border px-2 py-1 rounded"
+            placeholder="enter in USDT"
+          />
+        </div>
+        <p className="text-purple-600 font-mono">(30 USDT = ₹ 2550) for max profit 25 usdt</p>
+        <p className="text-purple-600  font-mono">(23.5 USDT = ₹ 1997.5)</p>
       </div>
 
       {result && (
