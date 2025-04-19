@@ -99,7 +99,7 @@ const BetCalculator = () => {
           </table>
 
           <div className="mt-4">
-            <p><strong>Total Investment:</strong> 23.5 USDT (≈ ₹{(totalUSDT * inrRate).toFixed(2)})</p>
+            <p><strong>Total Investment:</strong> {totalUSDT} USDT (≈ ₹{(totalUSDT * inrRate).toFixed(2)})</p>
             <p><strong>Minimum Loss (approx):</strong> {result.loss} USDT (≈ ₹{(result.loss * inrRate).toFixed(2)})</p>
             <p><strong>Max Profit (approx):</strong> {result.profit} USDT (≈ ₹{(result.profit * inrRate).toFixed(2)})</p>
           </div>
